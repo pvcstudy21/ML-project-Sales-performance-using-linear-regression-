@@ -83,3 +83,42 @@ print(vif_df)
 # remove strongly correleted collumns
 
 df_cleaned = df_cleaned.drop(["averagediscount"],axis=1)
+
+# Model Training
+
+x = df_cleaned.drop(["totalunitssold"],axis=1)
+y = df_cleaned["totalunitssold"]
+
+x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.2,random_state=42)
+
+lin_reg = LinearRegression()
+
+lin_reg.fit(x_train,y_train)
+
+y_train_pred = lin_reg.predict(x_train)
+
+y_test_pred = lin_reg.predict(x_test)
+
+# normality of residual
+
+residual_train = y_train - y_train_pred
+
+print(sns.kdeplot(residual_train,fill=True))
+
+# hypothesis testing
+
+p_val, stats = shapiro(residual_train)
+
+if p_val >= 0.05:
+    print(p_val)
+    print(stats)
+    print("Null hypothesis H0 is True")
+    print("Data Is normally distributed")
+    
+else:
+    print("Alternative Hypothesis is True")
+    print("Data is not normally distributed")
+
+# homoscedasticity
+
+print(sns.scatterplot(residual_train))
