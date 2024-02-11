@@ -34,3 +34,52 @@ print(df.isna().sum())
 # checking if the outliers are pressent
 
 print(sns.boxplot(df["rating"]))
+
+# Feature Engineering
+
+df = df.drop(["totalurgencycount","urgencytextrate","merchantid"],axis=1) 
+
+# removing outliers
+
+Q1 = df.quantile(0.25)
+Q3 = df.quantile(0.75)
+IQR = Q3-Q1
+
+LowerTail = Q1-1.5*IQR
+UpperTail = Q3+1.5*IQR
+
+show_outliers = (df<LowerTail)|(df>UpperTail)
+outlier_count = show_outliers.sum()
+outlier_count
+
+# Remove outliers
+df_cleaned = df[~show_outliers.any(axis=1)]                            # Remove rows containing any outliers in any column
+
+# Feature Selection
+
+# linearity 
+
+print(df_cleaned.corr())
+
+print(sns.heatmap(df_cleaned.corr(),annot=True))
+
+# no multicolinearity 
+
+df1 = df_cleaned.drop(["totalunitssold"],axis=1)
+
+vif_df = pd.DataFrame()
+vif_df["Features"] = df1.columns
+print(vif_df)
+
+vif_list = []
+for i in range(df1.shape[1]):
+    vif = variance_inflation_factor(df1.to_numpy(),i)
+    vif_list.append(vif)
+print(vif_list)
+
+vif_df["VIF"] = vif_list
+print(vif_df)
+
+# remove strongly correleted collumns
+
+df_cleaned = df_cleaned.drop(["averagediscount"],axis=1)
