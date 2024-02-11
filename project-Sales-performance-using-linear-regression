@@ -122,3 +122,31 @@ else:
 # homoscedasticity
 
 print(sns.scatterplot(residual_train))
+
+# Model Evaluation
+
+# for training
+mse = mean_squared_error(y_train,y_train_pred)
+print("Mean squared Error for training = ",mse)
+
+mae = mean_absolute_error(y_train,y_train_pred)
+print("Mean absolute Error for training = ",mae)
+
+rmse = np.sqrt(mse)
+print("Root Mean squared Error for training = ",rmse)
+
+r2score = r2_score(y_train,y_train_pred)
+print("R2 score for training = ",r2score)
+
+# for testing
+mse = mean_squared_error(y_test,y_test_pred)
+print("Mean squared Error for testing = ",mse)
+
+mae = mean_absolute_error(y_test,y_test_pred)
+print("Mean absolute Error for testing = ",mae)
+
+rmse = np.sqrt(mse)
+print("Root Mean squared Error for testing = ",rmse)
+
+r2score = r2_score(y_test,y_test_pred)
+print("R2 score for testing = ",r2score)
