@@ -18,7 +18,19 @@ from statsmodels.stats.outliers_influence import variance_inflation_factor
 from scipy.stats import shapiro
 from scipy import stats
 
-# # Data Gathering
+# Data Gathering
 
 df = pd.read_csv(r"C:\Users\Dell\Downloads\computed_insight_success_of_active_sellers.csv")
-df
+print(df)
+
+# Exploratory Data Analysis (EDA)
+
+print(df.shape)
+print(df.columns)
+print(df.describe()) 
+print(df.info())
+print(df.isna().sum())
+
+# checking if the outliers are pressent
+
+print(sns.boxplot(df["rating"]))
