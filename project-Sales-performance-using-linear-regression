@@ -50,7 +50,7 @@ UpperTail = Q3+1.5*IQR
 
 show_outliers = (df<LowerTail)|(df>UpperTail)
 outlier_count = show_outliers.sum()
-outlier_count
+print(outlier_count)
 
 # Remove outliers
 df_cleaned = df[~show_outliers.any(axis=1)]                            # Remove rows containing any outliers in any column
